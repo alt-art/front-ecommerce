@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from './context/User';
+import { ModalContext } from './context/Modal';
 
 const StyleHeader = styled.header`
   background-color: #282c34;
@@ -14,7 +15,7 @@ const StyleHeader = styled.header`
   color: white;
 `;
 
-const StyleHeaderButton = styled.div`
+const StyleHeaderButton = styled.button`
   display: flex;
   align-items: center;
   transition: all 0.2s ease-in-out;
@@ -25,17 +26,12 @@ const StyleHeaderButton = styled.div`
   margin: 0 0.5rem;
   font-size: 1.5rem;
   height: 40px;
-
-  a {
-    text-decoration: none;
-    color: white;
-  }
+  cursor: pointer;
+  color: white;
 
   &:hover {
     background-color: white;
-    & > * {
-      color: #282c34;
-    }
+    color: #282c34;
   }
 `;
 
@@ -45,6 +41,10 @@ const StyleContainer = styled.div`
 
 const Header = () => {
   const { token } = useContext(UserContext);
+  const { setIsOpen } = useContext(ModalContext);
+
+  const navigate = useNavigate();
+
   return (
     <StyleHeader>
       <div>
@@ -52,24 +52,24 @@ const Header = () => {
         <p>Buy your favorite games</p>
       </div>
       <StyleContainer>
-        <StyleHeaderButton>
-          <AiOutlineShoppingCart />
-        </StyleHeaderButton>
         {!token ? (
           <>
-            <StyleHeaderButton>
-              <NavLink to="/login">Log-in</NavLink>
+            <StyleHeaderButton onClick={() => navigate('/login')}>
+              Log-in
             </StyleHeaderButton>
-            <StyleHeaderButton>
-              <NavLink to="/signup">Sign-up</NavLink>
+            <StyleHeaderButton onClick={() => navigate('/signup')}>
+              Sign-up
             </StyleHeaderButton>
           </>
         ) : (
-          <StyleHeaderButton>
-            <NavLink to="/user">
+          <>
+            <StyleHeaderButton onClick={() => setIsOpen(true)}>
+              <AiOutlineShoppingCart />
+            </StyleHeaderButton>
+            <StyleHeaderButton onClick={() => navigate('/profile')}>
               <AiOutlineUser />
-            </NavLink>
-          </StyleHeaderButton>
+            </StyleHeaderButton>
+          </>
         )}
       </StyleContainer>
     </StyleHeader>

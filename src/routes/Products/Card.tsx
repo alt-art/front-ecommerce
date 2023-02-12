@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 import { AiOutlineStar } from 'react-icons/ai';
+import { ModalContext } from '../../context/Modal';
+import { useContext } from 'react';
+import { UserContext } from '../../context/User';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   image: string;
@@ -64,17 +68,32 @@ const StyleProductCardButton = styled.button`
     background-color: #282c34;
     color: white;
   }
-`
+`;
 
 const ProductCard = (props: Props) => {
+  const { token } = useContext(UserContext);
+  const { setIsOpen } = useContext(ModalContext);
+  const navigate = useNavigate();
+
+  const addToCart = () => {
+    if (token) {
+      setIsOpen(true);
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <StyleProductCard>
       <StyleProductImage image={props.image} />
       <StyleProductTitle>{props.title}</StyleProductTitle>
       <StyleProductPrice>R$ {props.price}</StyleProductPrice>
-      <StyleProductScore><AiOutlineStar />{props.score}</StyleProductScore>
-      <StyleProductCardButton>
-          Add to cart
+      <StyleProductScore>
+        <AiOutlineStar />
+        {props.score}
+      </StyleProductScore>
+      <StyleProductCardButton onClick={() => addToCart()}>
+        Add to cart
       </StyleProductCardButton>
     </StyleProductCard>
   );

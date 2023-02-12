@@ -1,7 +1,11 @@
+import { useContext } from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
+import Modal from 'react-modal';
+import { ModalContext } from '../../context/Modal';
 import { getProducts } from '../../utils/api';
 import ProductCard from './Card';
+import CartModal from '../../components/CartModal';
 
 const StyleGrid = styled.div`
   display: grid;
@@ -16,9 +20,11 @@ const StyleTitle = styled.h1`
 `;
 
 function Products() {
-  const {data: products} = useQuery('products', getProducts);
+  const { data: products } = useQuery('products', getProducts);
+
   return (
     <div>
+      <CartModal />
       <StyleTitle>Products</StyleTitle>
       <StyleGrid>
         {products?.map((product) => (

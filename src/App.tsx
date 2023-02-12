@@ -6,7 +6,9 @@ function App() {
   return (
     <div>
       <Header />
-      <StyleContainer><Outlet /></StyleContainer>
+      <StyleContainer>
+        <Outlet />
+      </StyleContainer>
     </div>
   );
 }

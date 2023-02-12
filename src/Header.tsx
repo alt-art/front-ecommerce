@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from './context/User';
 
 const StyleHeader = styled.header`
   background-color: #282c34;
@@ -42,6 +44,7 @@ const StyleContainer = styled.div`
 `;
 
 const Header = () => {
+  const { token } = useContext(UserContext);
   return (
     <StyleHeader>
       <div>
@@ -52,12 +55,22 @@ const Header = () => {
         <StyleHeaderButton>
           <AiOutlineShoppingCart />
         </StyleHeaderButton>
-        <StyleHeaderButton>
-          <NavLink to="/login">Log-in</NavLink>
-        </StyleHeaderButton>
-        <StyleHeaderButton>
-          <NavLink to="/signup">Sign-up</NavLink>
-        </StyleHeaderButton>
+        {!token ? (
+          <>
+            <StyleHeaderButton>
+              <NavLink to="/login">Log-in</NavLink>
+            </StyleHeaderButton>
+            <StyleHeaderButton>
+              <NavLink to="/signup">Sign-up</NavLink>
+            </StyleHeaderButton>
+          </>
+        ) : (
+          <StyleHeaderButton>
+            <NavLink to="/user">
+              <AiOutlineUser />
+            </NavLink>
+          </StyleHeaderButton>
+        )}
       </StyleContainer>
     </StyleHeader>
   );

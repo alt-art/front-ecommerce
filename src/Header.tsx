@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import { AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { UserContext } from "./context/User";
-import { ModalContext } from "./context/Modal";
+import styled from 'styled-components';
+import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from './context/User';
+import { ModalContext } from './context/Modal';
 
 const StyleHeader = styled.header`
   background-color: #282c34;
@@ -47,17 +47,17 @@ const Header = () => {
 
   return (
     <StyleHeader>
-      <div>
+      <NavLink to="/" style={{ textDecoration: 'none', color: 'white' }}>
         <h1>Games Store</h1>
         <p>Buy your favorite games</p>
-      </div>
+      </NavLink>
       <StyleContainer>
         {!token ? (
           <>
-            <StyleHeaderButton onClick={() => navigate("/login")}>
+            <StyleHeaderButton onClick={() => navigate('/login')}>
               Log-in
             </StyleHeaderButton>
-            <StyleHeaderButton onClick={() => navigate("/signup")}>
+            <StyleHeaderButton onClick={() => navigate('/signup')}>
               Sign-up
             </StyleHeaderButton>
           </>
@@ -66,7 +66,7 @@ const Header = () => {
             <StyleHeaderButton onClick={() => setIsOpen(true)}>
               <AiOutlineShoppingCart />
             </StyleHeaderButton>
-            <StyleHeaderButton onClick={() => navigate("/profile")}>
+            <StyleHeaderButton onClick={() => navigate('/profile')}>
               <AiOutlineUser />
             </StyleHeaderButton>
           </>

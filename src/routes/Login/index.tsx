@@ -1,9 +1,9 @@
-import { useContext, useState } from "react";
-import { useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { UserContext } from "../../context/User";
-import { login } from "../../utils/api";
+import { useContext, useState } from 'react';
+import { useQuery } from 'react-query';
+import { NavLink, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { UserContext } from '../../context/User';
+import { login } from '../../utils/api';
 
 const StyleContainer = styled.div`
   display: flex;
@@ -39,16 +39,16 @@ const StyleButton = styled.button`
 
 const Login = () => {
   const { setToken, token } = useContext(UserContext);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     login(username, password).then(({ token }) => {
       setToken(token);
+      navigate('/');
     });
-    navigate("/");
   };
 
   if (token) {
@@ -72,6 +72,7 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <StyleButton type="submit">Login</StyleButton>
+        <NavLink to="/signup">Sign up</NavLink>
       </StyleForm>
     </StyleContainer>
   );

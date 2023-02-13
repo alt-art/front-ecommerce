@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_ECOMMERCE_API,
@@ -13,7 +13,7 @@ interface Product {
 }
 
 export async function getProducts(): Promise<Product[]> {
-  return (await api.get<Product[]>("/product/")).data;
+  return (await api.get<Product[]>('/product/')).data;
 }
 
 interface Login {
@@ -24,7 +24,7 @@ export async function login(
   username: string,
   password: string
 ): Promise<Login> {
-  return (await api.post<Login>("/api-token-auth/", { username, password }))
+  return (await api.post<Login>('/api-token-auth/', { username, password }))
     .data;
 }
 
@@ -33,7 +33,7 @@ export async function signUp(
   password: string,
   email: string
 ): Promise<Login> {
-  return (await api.post<Login>("/user/", { username, password, email })).data;
+  return (await api.post<Login>('/user/', { username, password, email })).data;
 }
 
 interface CartItem {
@@ -45,7 +45,7 @@ interface CartItem {
 
 export async function getCartItems(token: string): Promise<CartItem[]> {
   return (
-    await api.get<CartItem[]>("/cart/", {
+    await api.get<CartItem[]>('/cart/', {
       headers: {
         Authorization: `Token ${token}`,
       },
@@ -59,7 +59,7 @@ export async function addCartItem(
 ): Promise<CartItem> {
   return (
     await api.post<CartItem>(
-      "/cart/",
+      '/cart/',
       {
         product: productId,
         quantity: 1,
@@ -83,6 +83,32 @@ export async function removeCartItem(
     },
     data: {
       product,
+    },
+  });
+}
+
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+}
+
+export async function getUser(token: string): Promise<User> {
+  return (
+    await api.get<User>('/user/', {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+  ).data;
+}
+
+export async function deleteUser(token: string): Promise<void> {
+  await api.delete<void>('/user/', {
+    headers: {
+      Authorization: `Token ${token}`,
     },
   });
 }

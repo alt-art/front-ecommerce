@@ -1,4 +1,4 @@
-import { createContext, FC, useState } from "react";
+import { createContext, FC, useState } from 'react';
 
 interface ModalContextProps {
   isOpen: boolean;

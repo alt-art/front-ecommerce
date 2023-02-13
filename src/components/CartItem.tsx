@@ -1,8 +1,8 @@
-import { useContext } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import styled from "styled-components";
-import { UserContext } from "../context/User";
-import { removeCartItem } from "../utils/api";
+import { useContext } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import styled from 'styled-components';
+import { UserContext } from '../context/User';
+import { removeCartItem } from '../utils/api';
 
 interface Product {
   id: number;
@@ -75,7 +75,7 @@ const CartItem = ({ product, quantity }: Props) => {
     () => removeCartItem(token, product.id),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries("cartItems");
+        queryClient.invalidateQueries('cartItems');
       },
     }
   );

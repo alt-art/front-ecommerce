@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import { AiOutlineStar } from "react-icons/ai";
-import { ModalContext } from "../../context/Modal";
-import { useContext } from "react";
-import { UserContext } from "../../context/User";
-import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "react-query";
-import { addCartItem } from "../../utils/api";
+import styled from 'styled-components';
+import { AiOutlineStar } from 'react-icons/ai';
+import { ModalContext } from '../../context/Modal';
+import { useContext } from 'react';
+import { UserContext } from '../../context/User';
+import { useNavigate } from 'react-router-dom';
+import { useMutation, useQueryClient } from 'react-query';
+import { addCartItem } from '../../utils/api';
 
 interface Props {
   id: number;
@@ -81,7 +81,7 @@ const ProductCard = (props: Props) => {
 
   const addToCartMutation = useMutation(() => addCartItem(token, props.id), {
     onSuccess: () => {
-      queryClient.invalidateQueries("cartItems");
+      queryClient.invalidateQueries('cartItems');
     },
   });
 
@@ -90,7 +90,7 @@ const ProductCard = (props: Props) => {
       addToCartMutation.mutate();
       setIsOpen(true);
     } else {
-      navigate("/login");
+      navigate('/login');
     }
   };
 

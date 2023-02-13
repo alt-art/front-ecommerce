@@ -1,22 +1,22 @@
-import { useContext, useEffect } from "react";
-import Modal from "react-modal";
-import { useQuery } from "react-query";
-import { ModalContext } from "../context/Modal";
-import { UserContext } from "../context/User";
-import { getCartItems } from "../utils/api";
-import CartItem from "./CartItem";
-import Loading from "react-loading";
-import styled from "styled-components";
+import { useContext, useEffect } from 'react';
+import Modal from 'react-modal';
+import { useQuery } from 'react-query';
+import { ModalContext } from '../context/Modal';
+import { UserContext } from '../context/User';
+import { getCartItems } from '../utils/api';
+import CartItem from './CartItem';
+import Loading from 'react-loading';
+import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(100vh - 6rem);
+  height: calc(100vh - 7rem);
 `;
 
-Modal.setAppElement("#root");
+Modal.setAppElement('#root');
 
 const CartModal = () => {
   const { isOpen, setIsOpen } = useContext(ModalContext);
@@ -26,7 +26,7 @@ const CartModal = () => {
     isLoading,
     data: cartItems,
     refetch,
-  } = useQuery("cartItems", async () => {
+  } = useQuery('cartItems', async () => {
     return getCartItems(token);
   });
 
@@ -41,15 +41,15 @@ const CartModal = () => {
       contentLabel="Cart"
       style={{
         overlay: {
-          backgroundColor: "rgba(0, 0, 0, 0.781)",
+          backgroundColor: 'rgba(0, 0, 0, 0.781)',
         },
         content: {
-          backgroundColor: "#fff",
-          padding: "2rem",
-          left: "0",
-          top: "0",
-          height: "100%",
-          width: "500px",
+          backgroundColor: '#fff',
+          padding: '2rem',
+          left: '0',
+          top: '0',
+          height: '100%',
+          width: '500px',
         },
       }}
     >
@@ -64,6 +64,11 @@ const CartModal = () => {
           {cartItems?.map((item) => (
             <CartItem key={item.id} {...item} />
           ))}
+          {cartItems?.length === 0 && (
+            <Container>
+              <p>Your cart is empty</p>
+            </Container>
+          )}
         </div>
       )}
     </Modal>

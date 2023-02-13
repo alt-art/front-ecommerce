@@ -1,11 +1,14 @@
-import styled from 'styled-components';
-import { AiOutlineStar } from 'react-icons/ai';
-import { ModalContext } from '../../context/Modal';
-import { useContext } from 'react';
-import { UserContext } from '../../context/User';
-import { useNavigate } from 'react-router-dom';
+import styled from "styled-components";
+import { AiOutlineStar } from "react-icons/ai";
+import { ModalContext } from "../../context/Modal";
+import { useContext } from "react";
+import { UserContext } from "../../context/User";
+import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "react-query";
+import { addCartItem } from "../../utils/api";
 
 interface Props {
+  id: number;
   image: string;
   title: string;
   price: number;
@@ -74,12 +77,20 @@ const ProductCard = (props: Props) => {
   const { token } = useContext(UserContext);
   const { setIsOpen } = useContext(ModalContext);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const addToCartMutation = useMutation(() => addCartItem(token, props.id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries("cartItems");
+    },
+  });
 
   const addToCart = () => {
     if (token) {
+      addToCartMutation.mutate();
       setIsOpen(true);
     } else {
-      navigate('/login');
+      navigate("/login");
     }
   };
 

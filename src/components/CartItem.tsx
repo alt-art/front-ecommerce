@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import { useContext } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import styled from "styled-components";
+import { UserContext } from "../context/User";
+import { removeCartItem } from "../utils/api";
 
 interface Product {
   id: number;
@@ -64,17 +68,35 @@ const StyleCartItemButton = styled.button`
 `;
 
 const CartItem = ({ product, quantity }: Props) => {
+  const { token } = useContext(UserContext);
+  const queryClient = useQueryClient();
+
+  const removeItemMutation = useMutation(
+    () => removeCartItem(token, product.id),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("cartItems");
+      },
+    }
+  );
+
   return (
     <StyleCartItem>
       <StyleCartItemInfo>
-        <StyleCartItemImg src={`${import.meta.env.VITE_ECOMMERCE_API}/assets/${product.imageURL}`} />
+        <StyleCartItemImg
+          src={`${import.meta.env.VITE_ECOMMERCE_API}/assets/${
+            product.imageURL
+          }`}
+        />
         <div>
           <StyleCartItemName>{product.name}</StyleCartItemName>
           <StyleCartItemPrice>R$ {product.price}</StyleCartItemPrice>
         </div>
       </StyleCartItemInfo>
       <StyleCartItemQuantity>{quantity}</StyleCartItemQuantity>
-      <StyleCartItemButton>Remove</StyleCartItemButton>
+      <StyleCartItemButton onClick={() => removeItemMutation.mutate()}>
+        Remove
+      </StyleCartItemButton>
     </StyleCartItem>
   );
 };

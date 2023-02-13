@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { UserContext } from '../../context/User';
-import { signUp } from '../../utils/api';
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { UserContext } from "../../context/User";
+import { signUp } from "../../utils/api";
 
 const StyleContainer = styled.div`
   display: flex;
@@ -38,18 +38,18 @@ const StyleButton = styled.button`
 
 const SignUp = () => {
   const { token } = useContext(UserContext);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signUp(username, password, email).then(() => {
-      navigate('/login');
+      navigate("/login");
     });
   };
 
@@ -58,17 +58,34 @@ const SignUp = () => {
     const isValidPassword = password.length >= 3;
     const isValidUsername = username.length >= 3;
     const isValidConfirmPassword = password === confirmPassword;
-    const isValid = isValidEmail && isValidPassword && isValidUsername && isValidConfirmPassword;
-    const emailMessage = isValidEmail ? '' : 'Invalid email';
-    const passwordMessage = isValidPassword ? '' : 'Password must be at least 3 characters';
-    const usernameMessage = isValidUsername ? '' : 'Username must be at least 3 characters';
-    const confirmPasswordMessage = isValidConfirmPassword ? '' : 'Passwords do not match';
-    setError([emailMessage, passwordMessage, usernameMessage, confirmPasswordMessage].join('.'));
+    const isValid =
+      isValidEmail &&
+      isValidPassword &&
+      isValidUsername &&
+      isValidConfirmPassword;
+    const emailMessage = isValidEmail ? "" : "Invalid email";
+    const passwordMessage = isValidPassword
+      ? ""
+      : "Password must be at least 3 characters";
+    const usernameMessage = isValidUsername
+      ? ""
+      : "Username must be at least 3 characters";
+    const confirmPasswordMessage = isValidConfirmPassword
+      ? ""
+      : "Passwords do not match";
+    setError(
+      [
+        emailMessage,
+        passwordMessage,
+        usernameMessage,
+        confirmPasswordMessage,
+      ].join(".")
+    );
     setButtonDisabled(!isValid);
   }, [password, username, confirmPassword, email]);
 
   useEffect(() => {
-    setError(error.replace(/\.+/g, '. ').trim());
+    setError(error.replace(/\.+/g, ". ").trim());
   }, [error]);
 
   if (token) {

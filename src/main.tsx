@@ -1,47 +1,44 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./index.css";
 
-import Products from './routes/Products'
-import App from './App';
-import { QueryClientProvider, QueryClient } from 'react-query';
-import Login from './routes/Login';
-import { UserContextProvider } from './context/User';
-import SignUp from './routes/SignUp';
+import Products from "./routes/Products";
+import App from "./App";
+import { QueryClientProvider, QueryClient } from "react-query";
+import Login from "./routes/Login";
+import { UserContextProvider } from "./context/User";
+import SignUp from "./routes/SignUp";
 
 const BrowserRouter = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
     children: [
       {
-        path: '/',
+        path: "/",
         element: <Products />,
       },
     ],
   },
   {
-    path: '/login',
+    path: "/login",
     element: <Login />,
   },
   {
-    path: '/signup',
+    path: "/signup",
     element: <SignUp />,
-  }
+  },
 ]);
 
 const queryClient = new QueryClient();
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <UserContextProvider>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={BrowserRouter} />
       </QueryClientProvider>
     </UserContextProvider>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);

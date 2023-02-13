@@ -1,4 +1,4 @@
-import { createContext, FC, useState } from 'react';
+import { createContext, FC, useState } from "react";
 
 interface UserContextProps {
   token: string;
@@ -6,7 +6,7 @@ interface UserContextProps {
 }
 
 export const UserContext = createContext<UserContextProps>({
-  token: '',
+  token: "",
   setToken: () => {},
 });
 
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const UserContextProvider: FC<Props> = ({ children }) => {
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
 
   return (
     <UserContext.Provider

@@ -6,6 +6,8 @@ COPY . .
 
 RUN yarn install
 
+ARG VITE_ECOMMERCE_API
+
 RUN yarn build
 
 FROM nginx:1.21.3-alpine AS runner

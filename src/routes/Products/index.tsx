@@ -6,6 +6,7 @@ import { ModalContext } from '../../context/Modal';
 import { getProducts } from '../../utils/api';
 import ProductCard from './Card';
 import CartModal from '../../components/CartModal';
+import { UserContext } from '../../context/User';
 
 const StyleGrid = styled.div`
   display: grid;
@@ -21,10 +22,11 @@ const StyleTitle = styled.h1`
 
 function Products() {
   const { data: products } = useQuery('products', getProducts);
+  const { token } = useContext(UserContext);
 
   return (
     <div>
-      <CartModal />
+      {token && <CartModal />}
       <StyleTitle>Products</StyleTitle>
       <StyleGrid>
         {products?.map((product) => (
